@@ -4,7 +4,4 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 
 // Store creation
 
-export const store = createStore(inputReducer, composeWithDevTools(
-    applyMiddleware(),
-    // other store enhancers if any
-  ));
+export const store = createStore(inputReducer, composeWithDevTools(applyMiddleware(),));

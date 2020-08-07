@@ -9,3 +9,21 @@
     align-items: center;
     text-align: center;
 }
+
+.result-container__buttons {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 500px;
+    margin-top:30px;
+}
+
+.btn.btn-primary {
+    margin:0;
+    width: 200px;
+}
+
+.btn.btn-warning {
+    margin:0;
+    width: 200px;
+}

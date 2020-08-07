@@ -1,60 +1,103 @@
-import React,{useState} from 'react';
-import {useDispatch} from "react-redux"
+import React,{useState,useEffect} from 'react';
+import {useDispatch,useSelector} from "react-redux"
 import {addInput} from "../actions/inputs"
-import { Redirect } from "react-router-dom"
+import { useHistory } from "react-router-dom"
 
 export const AddInputPage = () => {
+    const [inputValue, setInputValue] = useState({who: '',  what: '', when: '', where: ''});
+    const [initializedInput, setInitializedInput] = useState({
+        who: false,
+        when: false,
+        where: false,
+        what: false
+    })
+    
+    const changeInputValue = (inputName, e) => {
+        setInputValue({...inputValue, [inputName]: e.target.value});
+        setInitializedInput({...initializedInput, [inputName]: true});
+    }
 
-    const [who,setWho] = useState ("")
-    const [what,setWhat] = useState ("")
-    const [when,setWhen] = useState ("")
-    const [where,setWhere] = useState ("")
+    const {who,what,where,when} = useSelector (state => state)
+
+
+    useEffect(() => {
+        console.log (who)
+        if( who && what && where && when) {
+            setInitializedInput({
+                who: true,
+                when: true,
+                where: true,
+                what: true
+            })
+            setInputValue ({
+                who: who,
+                when: when,
+                where: where,
+                what: what 
+            })
+
+        } 
+    }, []);
+
+
     const dispatch = useDispatch()
-    const [toResult,setToResult] = useState (false)
+    const history = useHistory ()
     
     const submitForm = (e) => {
         e.preventDefault()
-        if (!who || !what || !when || !where) {
-            alert ("Missing entry, please fill all entries!")
-        } else {
-            dispatch(addInput({who,what,when,where}))
-            setToResult (true)
-        }
+        dispatch(addInput({...inputValue}))
+        history.push("/result");
     }
-    
+
     return (
         <div className="main-container">
             <form onSubmit={submitForm} className="input-form">
                 <h1>Sentence Game</h1>
-                <div class="form-group">
-                    <label for="formGroupExampleInput">Who?</label>
-                    <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Example input placeholder"
-                    value={who} onChange={(e) => setWho(e.target.value)}/>
+                
+                <div className="form-group">
+                    <input type="text" className="form-control" id="formGroupExampleInput" 
+                    placeholder="Who?"
+                    value={inputValue.who} 
+                    onChange={changeInputValue.bind(null, 'who')}
+                />
                 </div>
-                <div class="form-group">
-                    <label for="formGroupExampleInput2" id={who==="" ? "hidden" : "formGroupExampleInput2" }>What?</label>
+                <div className={initializedInput.who ? "form-group" : "form-group hidden"}>
                     <input type="text" 
-                    class="form-control" id={who==="" ? "hidden" : "formGroupExampleInput2" }
-                    placeholder="Another input placeholder"
-                    value={what} onChange={(e) => setWhat(e.target.value)}/>
+                    className="form-control" id="formGroupExampleInput2"
+                    placeholder="What?"
+                    value={inputValue.what} 
+                    onChange={changeInputValue.bind(null, 'what')}
+                />
                 </div>
-                <div class="form-group">
-                    <label for="formGroupExampleInput3" id={what==="" ? "hidden" : "formGroupExampleInput3" }>When?</label>
+                <div className={initializedInput.what ? "form-group" : "form-group hidden"}> 
                     <input type="text" 
-                    class="form-control" id={what==="" ? "hidden" : "formGroupExampleInput3" }
-                    placeholder="Another input placeholder"
-                    value={when} onChange={(e) => setWhen(e.target.value)}/>
+                    className="form-control" id="formGroupExampleInput3"
+                    placeholder="When?"
+                    value={inputValue.when} 
+                    onChange={changeInputValue.bind(null, 'when')}
+                />
                 </div>
-                <div class="form-group">
-                    <label for="formGroupExampleInput4" id={when==="" ? "hidden" : "formGroupExampleInput3" }>Where?</label>
+                <div className={initializedInput.when ? "form-group" : "form-group hidden"}>
                     <input type="text" 
-                    class="form-control" id={when==="" ? "hidden" : "formGroupExampleInput4" }
-                    placeholder="Another input placeholder"
-                    value={where} onChange={(e) => setWhere(e.target.value)}/>
+                    className="form-control" id="formGroupExampleInput4"
+                    placeholder="Where?"
+                    value={inputValue.where} 
+                    onChange={changeInputValue.bind(null, 'where')}
+                />
                 </div>
-                <button type="submit" 
-                class="btn btn-primary">Generate a sentence</button>
-                {toResult ? <Redirect to="/result" /> : null}
+                <button 
+                    type="submit"
+                    hidden={
+                        !initializedInput.who || 
+                        !initializedInput.what || 
+                        !initializedInput.when || 
+                        !initializedInput.where ? true : false}
+                    disabled={!inputValue.who ||
+                        !inputValue.what ||
+                        !inputValue.when ||
+                        !inputValue.where ? true : false}
+                    className="btn btn-primary input">Generate a sentence!
+                </button>
             </form>
         </div>
     )
