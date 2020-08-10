@@ -1,0 +1,20 @@
+{
+  "input-page": {
+    "title": "Sentence Game",
+    "inputs": {
+      "who": "Who?",
+      "what": "What?",
+      "when": "When?",
+      "where": "Where?"
+    },
+    "error-message": "Input is missing!"
+  },
+  "result-page": {
+    "title": "Your sentence is:"
+  },
+  "buttons": {
+    "button-input": "Generate a sentence",
+    "button-start-over": "Start Over",
+    "button-adjust": "Adjust the sentence"
+  }
+}

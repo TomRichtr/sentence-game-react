@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { resetRedux } from "../actions/inputs";
 import { InputState } from "../actions/inputs";
+import { useTranslation } from "react-i18next";
 
 export const ResultPage = () => {
   const { who, what, where, when } = useSelector((state: InputState) => state);
@@ -10,29 +11,31 @@ export const ResultPage = () => {
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const startOver = (e: MouseEvent) => {
+  const { t } = useTranslation();
+
+  const startOver = () => {
     dispatch(resetRedux());
     history.push("/");
   };
 
-  const changeSentence = (e: MouseEvent) => {
+  const changeSentence = () => {
     history.push("/");
   };
 
   return (
     <div className="main-container">
       <div className="result-container">
-        <h1>Your sentence is:</h1>
+        <h1>{t("result-page.title")}</h1>
         <h2>
           {who} {what} {where} {when}
           {dot}
         </h2>
         <div className="result-container__buttons">
           <button className="btn btn-primary" onClick={startOver}>
-            Start Over
+            {t("buttons.button-start-over")}
           </button>
           <button className="btn btn-warning" onClick={changeSentence}>
-            Adjust the sentence
+            {t("buttons.button-adjust")}
           </button>
         </div>
       </div>

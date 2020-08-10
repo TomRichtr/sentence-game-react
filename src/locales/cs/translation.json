@@ -1,0 +1,20 @@
+{
+  "input-page": {
+    "title": "Hra Vět",
+    "inputs": {
+      "who": "Kdo?",
+      "what": "Co?",
+      "when": "Kdy?",
+      "where": "Kde?"
+    },
+    "error-message": "Chybí text!"
+  },
+  "result-page": {
+    "title": "Tvá věta je:"
+  },
+  "buttons": {
+    "button-input": "Vygeneruj větu",
+    "button-start-over": "Začni znovu",
+    "button-adjust": "Uprav větu"
+  }
+}
