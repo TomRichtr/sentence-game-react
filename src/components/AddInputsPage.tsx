@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import { addInput } from "../actions/inputs";
@@ -26,27 +26,10 @@ export const AddInputPage = () => {
 
   const fields: useFormKeys[] = ["who", "what", "when", "where"];
 
-  const [initializedInput, setInitializedInput] = useState({
-    who: true,
-    when: false,
-    where: false,
-    what: false,
-  });
-
-  const changeInputValue = (inputName: string) => {
-    setInitializedInput({ ...initializedInput, [inputName]: true });
-  };
-
   const result = useSelector((state: InputState) => state);
 
   useEffect(() => {
     if (result.who !== "") {
-      setInitializedInput({
-        who: true,
-        when: true,
-        where: true,
-        what: true,
-      });
       reset(result);
     }
   }, []);
@@ -59,8 +42,8 @@ export const AddInputPage = () => {
       <form onSubmit={handleSubmit(onSubmit)} className="input-form">
         <h1>{t("input-page.title")}</h1>
         <div className="form-group">
-          {fields.map((el, i = 0) => (
-            <div className="">
+          {fields.map((el) => (
+            <div>
               <input
                 type="text"
                 name={el}
@@ -68,7 +51,6 @@ export const AddInputPage = () => {
                 className="form-control"
                 id="formGroupExampleInput"
                 placeholder={t(`input-page.inputs.${el}`)}
-                onChange={changeInputValue.bind(null, el)}
               />
               {errors[el] && <p>{t(`input-page.error-message`)}</p>}
             </div>
